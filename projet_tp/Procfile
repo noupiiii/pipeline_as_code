@@ -1,1 +1,1 @@
-web: npm start
+web: cd projet_tp && npm run start

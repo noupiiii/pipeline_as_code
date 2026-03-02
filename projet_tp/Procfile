@@ -1,1 +1,0 @@
-web: cd projet_tp && npm run start

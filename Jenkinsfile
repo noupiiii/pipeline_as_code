@@ -2,44 +2,32 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'node20'
+        nodejs 'NodeJS24'
     }
 
     environment {
         // Vérifie que ce nom correspond exactement à ton app sur Heroku
-        HEROKU_APP_NAME = 'tp-pipeline-as-code'
+        HEROKU_TOKEN = credentials('HEROKU_API_KEY')
     }
 
     stages {
-        stage('Checkout') {
+        stage('Install') {
             steps {
-                checkout scm
+                csh 'npm ci'
             }
         }
-        stage('Install & Build') {
+        stage('Build') {
             steps {
-                // On retire la ligne "user root" qui causait l'erreur 127
-                sh 'npm install'
                 sh 'npm run build'
             }
         }
-        stage('Deploy') {
-            steps {
-                withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_TOKEN')]) {
-                    sh '''
-                        # On nettoie le remote s'il existe déjà
-                        git remote remove heroku || true
+        stage('Deploy heroku') {
+          steps {
+            withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable:'MY_KEY' )]) {
+              sh '''
+                git push https://github.com/noupiiii/pipeline_as_code.git HEAD:refs/heads/main --force
+            }
 
-                        # On ajoute le remote proprement (avec des guillemets simples pour protéger le token)
-                        git remote add heroku https://root:${HEROKU_TOKEN}@git.heroku.com/${HEROKU_APP_NAME}.git
-
-                        # On s'assure que Jenkins sait qu'on est sur une branche
-                        git checkout -b main || git checkout main
-
-                        # On pousse vers Heroku
-                        git push heroku main:main --force
-                    '''
-                }
             }
         }
   }

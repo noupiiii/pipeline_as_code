@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Install') {
             steps {
-                csh 'npm ci'
+                sh 'npm ci'
             }
         }
         stage('Build') {

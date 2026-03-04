@@ -22,13 +22,20 @@ pipeline {
             }
         }
         stage('Deploy heroku') {
-          steps {
-            withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable:'MY_KEY' )]) {
-              sh '''
-                git push https://github.com/noupiiii/pipeline_as_code.git HEAD:refs/heads/main --force
-                '''
-            }
+            steps {
+                withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_TOKEN')]) {
+                    sh '''
+                        # 1. On s'assure d'être sur la branche main
+                        git checkout main || git checkout -b main
 
+                        # 2. On ajoute l'adresse de Heroku avec le Token
+                        git remote remove heroku || true
+                        git remote add heroku https://root:${HEROKU_TOKEN}@git.heroku.com/tp-pipeline-as-code.git
+
+                        # 3. On pousse vers Heroku (et PAS vers GitHub)
+                        git push heroku main:main --force
+                    '''
+                }
             }
         }
   }

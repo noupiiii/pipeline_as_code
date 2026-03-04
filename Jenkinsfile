@@ -18,17 +18,21 @@ pipeline {
         }
         stage('Install & Build') {
             steps {
+                // On installe la librairie manquante avant tout
+                sh 'user root' // Note: Si ça bloque, essaie sans cette ligne
+                sh 'apt-get update && apt-get install -y libatomic1'
+
+                // Ensuite on continue normalement
                 sh 'npm install'
                 sh 'npm run build'
             }
         }
         stage('Deploy') {
             steps {
-                // 'HEROKU_API_KEY' doit être l'ID du secret créé dans Jenkins
                 withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_TOKEN')]) {
-                    // Correction : Ajout de 'env.' et remplacement de 'root' par '_' (convention Heroku)
-                    sh "git remote add heroku https://_:${HEROKU_TOKEN}@git.heroku.com/${env.HEROKU_APP_NAME}.git || true"
-                    sh "git push heroku main:master --force"
+                    // Utilisation de guillemets simples '' pour éviter l'erreur de syntaxe Groovy
+                    sh 'git remote add heroku https://root:${HEROKU_TOKEN}@git.heroku.com/${HEROKU_APP_NAME}.git || true'
+                    sh 'git push heroku main:master --force'
                 }
             }
         }

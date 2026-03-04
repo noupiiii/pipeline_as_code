@@ -16,13 +16,9 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Install & Build') {
+stage('Install & Build') {
             steps {
-                // On installe la librairie manquante avant tout
-                sh 'user root' // Note: Si ça bloque, essaie sans cette ligne
-                sh 'apt-get update && apt-get install -y libatomic1'
-
-                // Ensuite on continue normalement
+                // On retire la ligne "user root" qui causait l'erreur 127
                 sh 'npm install'
                 sh 'npm run build'
             }

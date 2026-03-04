@@ -37,7 +37,7 @@ pipeline {
                         git checkout -b main || git checkout main
 
                         # On pousse vers Heroku
-                        git push heroku main:master --force
+                        git push heroku main:main --force
                     '''
                 }
             }

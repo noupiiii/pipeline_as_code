@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'node20' // Doit correspondre au nom configuré dans Administrer Jenkins > Tools
+        nodejs 'node20'
     }
 
     environment {
-        HEROKU_APP_NAME = 'nom-de-ton-app-heroku' // À remplacer par le vrai nom
+        HEROKU_APP_NAME = 'pipeline_as_code'
     }
 
     stages {

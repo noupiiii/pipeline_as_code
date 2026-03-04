@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    tools {
+        nodejs 'node20' // Doit correspondre au nom configuré dans Administrer Jenkins > Tools
+    }
+
+    environment {
+        HEROKU_APP_NAME = 'nom-de-ton-app-heroku' // À remplacer par le vrai nom
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Install & Build') {
+            steps {
+                sh 'npm install'
+                sh 'npm run build'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_TOKEN')]) {
+                    sh "git remote add heroku https://root:${HEROKU_TOKEN}@git.heroku.com/${HEROKU_APP_NAME}.git || true"
+                    sh "git push heroku main:master --force"
+                }
+            }
+        }
+    }
+}

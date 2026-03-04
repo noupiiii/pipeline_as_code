@@ -16,7 +16,7 @@ pipeline {
                 checkout scm
             }
         }
-stage('Install & Build') {
+        stage('Install & Build') {
             steps {
                 // On retire la ligne "user root" qui causait l'erreur 127
                 sh 'npm install'
@@ -26,11 +26,21 @@ stage('Install & Build') {
         stage('Deploy') {
             steps {
                 withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_TOKEN')]) {
-                    // Utilisation de guillemets simples '' pour éviter l'erreur de syntaxe Groovy
-                    sh 'git remote add heroku https://root:${HEROKU_TOKEN}@git.heroku.com/${HEROKU_APP_NAME}.git || true'
-                    sh 'git push heroku main:master --force'
+                    sh '''
+                        # On nettoie le remote s'il existe déjà
+                        git remote remove heroku || true
+
+                        # On ajoute le remote proprement (avec des guillemets simples pour protéger le token)
+                        git remote add heroku https://root:${HEROKU_TOKEN}@git.heroku.com/${HEROKU_APP_NAME}.git
+
+                        # On s'assure que Jenkins sait qu'on est sur une branche
+                        git checkout -b main || git checkout main
+
+                        # On pousse vers Heroku
+                        git push heroku main:master --force
+                    '''
                 }
             }
         }
-    }
+  }
 }

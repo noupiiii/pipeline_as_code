@@ -26,6 +26,7 @@ pipeline {
             withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable:'MY_KEY' )]) {
               sh '''
                 git push https://github.com/noupiiii/pipeline_as_code.git HEAD:refs/heads/main --force
+                '''
             }
 
             }

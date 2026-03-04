@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'node20'
+        nodejs 'NodeJS24'
     }
 
     environment {
@@ -21,7 +21,7 @@ pipeline {
                 sh 'npm run build'
             }
         }
-        stage('Deploy heroku') {
+        stage('Deploy Heroku') {
             steps {
                 withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_TOKEN')]) {
                     sh '''

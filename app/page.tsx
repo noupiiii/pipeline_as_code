@@ -11,7 +11,7 @@ export default function Home() {
       textAlign: "center"
     }}>
       <h1 style={{ marginTop: "20px", fontSize: "24px" }}>
-        Hello World de Louis, Laetitia et Aurélien
+        Hello World de Louis, Laetitia et Aurélien ^^
       </h1>
     </main>
   );

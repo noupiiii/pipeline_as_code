@@ -10,15 +10,8 @@ export default function Home() {
       height: "100vh",
       textAlign: "center"
     }}>
-      <Image
-        src="/next.svg"
-        alt="Next.js logo"
-        width={180}
-        height={38}
-        priority
-      />
       <h1 style={{ marginTop: "20px", fontSize: "24px" }}>
-        Hello World CI/CD avec Jenkins + Docker + Heroku
+        Hello World de Louis, Laetitia et Aurélien
       </h1>
     </main>
   );

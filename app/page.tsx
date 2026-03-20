@@ -38,6 +38,6 @@ export default function Home() {
       >
       Voir le projet sur GitHub
     </a>
-    </main >
+    </main>
   );
 }

@@ -18,26 +18,12 @@ export default function Home() {
       <p style={{ fontSize: "1.2rem", opacity: 0.8, marginBottom: "2rem" }}>
         Pipeline as Code — Master 1 EPSI Lille
       </p>
-
       <p style={{ fontSize: "0.9rem", opacity: 0.7, marginBottom: "2rem" }}>
-        Déployé le : {new Date().toLocaleDateString("fr-FR")}
+        Deploye le : {new Date().toLocaleDateString("fr-FR")}
       </p>
-
-
-      href="https://github.com/noupiiii/pipeline_as_code"
-      target="_blank"
-      style={{
-        background: "white",
-        color: "#3b82f6",
-        padding: "0.75rem 2rem",
-        borderRadius: "50px",
-        fontWeight: "bold",
-        textDecoration: "none",
-        fontSize: "1rem"
-      }}
-      >
-      Voir le projet sur GitHub
-    </a>
+      <a href="https://github.com/noupiiii/pipeline_as_code" target="_blank" style={{ background: "white", color: "#3b82f6", padding: "0.75rem 2rem", borderRadius: "50px", fontWeight: "bold", textDecoration: "none", fontSize: "1rem" }}>
+        Voir le projet sur GitHub
+      </a>
     </main>
   );
 }
